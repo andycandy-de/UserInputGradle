@@ -3,6 +3,8 @@ plugins {
     id 'java-gradle-plugin'
 
     id 'groovy'
+
+    id 'com.gradle.plugin-publish' version '0.12.0'
 }
 
 group = 'com.github.andycandy-de'
@@ -20,6 +22,8 @@ gradlePlugin {
     plugins {
         userInput {
             id = 'de.andycandy.gradle.user_input'
+            displayName = 'UserInputGradle'
+            description = 'A simple plugin which adds user input dialogs to a grade build.'
             implementationClass = 'de.andycandy.gradle.user_input.UserInputGradlePlugin'
         }
     }
@@ -40,4 +44,10 @@ tasks.register('functionalTest', Test) {
 
 check {
     dependsOn(tasks.functionalTest)
+}
+
+pluginBundle {
+    website = 'https://github.com/andycandy-de/UserInputGradle'
+    vcsUrl = 'https://github.com/andycandy-de/UserInputGradle'
+    tags = ['userinput', 'dialog', 'password']
 }
