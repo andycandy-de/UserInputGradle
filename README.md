@@ -5,7 +5,10 @@ For example to pass git credentials to the build.
 Grgit example:
 ```
 task gitLoginInput (type: UserInputTask) {
-    onlyIf { project.findProject('userInput') ?: true } // DISABLE USER INPUT (e.g. CI)
+    onlyIf { // DISABLE USER INPUT (e.g. CI)
+        def userInput = project.findProperty('userInput')
+        userInput != null ? Boolean.valueOf(userInput) : true
+    }
 
     group 'configuration'
     description 'This task shows an user input if git credentials are missing'
