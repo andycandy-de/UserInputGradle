@@ -1,0 +1,43 @@
+
+plugins {
+    id 'java-gradle-plugin'
+
+    id 'groovy'
+}
+
+group = 'com.github.andycandy-de'
+version = '1.0.0-SNAPSHOT'
+
+repositories {
+    jcenter()
+}
+
+dependencies {
+    testImplementation 'org.spockframework:spock-core:1.3-groovy-2.5'
+}
+
+gradlePlugin {
+    plugins {
+        userInput {
+            id = 'de.andycandy.gradle.user_input'
+            implementationClass = 'de.andycandy.gradle.user_input.UserInputGradlePlugin'
+        }
+    }
+}
+
+sourceSets {
+    functionalTest {
+    }
+}
+
+gradlePlugin.testSourceSets(sourceSets.functionalTest)
+configurations.functionalTestImplementation.extendsFrom(configurations.testImplementation)
+
+tasks.register('functionalTest', Test) {
+    testClassesDirs = sourceSets.functionalTest.output.classesDirs
+    classpath = sourceSets.functionalTest.runtimeClasspath
+}
+
+check {
+    dependsOn(tasks.functionalTest)
+}
