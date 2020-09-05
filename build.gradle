@@ -8,7 +8,7 @@ plugins {
 }
 
 group = 'com.github.andycandy-de'
-version = '1.0.0-SNAPSHOT'
+version = '1.0.0'
 
 repositories {
     jcenter()
