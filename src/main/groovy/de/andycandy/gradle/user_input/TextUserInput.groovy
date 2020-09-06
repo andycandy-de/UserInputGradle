@@ -1,6 +1,6 @@
 package de.andycandy.gradle.user_input
 
-import groovy.transform.CompileDynamic
+
 import groovy.transform.CompileStatic
 import groovy.transform.NamedParam
 import groovy.transform.NamedParams
@@ -41,13 +41,14 @@ class TextUserInput extends UserInput {
 
 			TextUserInput userInput = new TextUserInput()
 
-			ParamHelper.create(params, userInput) {
+			ParamsToObjectMapper.map(params, userInput) {
 				mapParam('title')
 				mapParam('message')
 				mapParamWithFallback('defaultText', '')
-				mapParamWithFallback('condition') { true }
-				mapParamWithFallback('onInput') {}
-				mapParamWithFallback('onCancel') {}
+				mapParamWithFallback('condition', { true })
+				mapParamWithFallback('onInput', {})
+				mapParamWithFallback('onCancel', {})
+				checkForUnknownParams()
 			}
 
 			return userInput

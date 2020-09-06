@@ -1,6 +1,6 @@
 package de.andycandy.gradle.user_input
 
-import groovy.transform.CompileDynamic
+
 import groovy.transform.CompileStatic
 import groovy.transform.NamedParam
 import groovy.transform.NamedParams
@@ -40,16 +40,17 @@ class FileUserInput extends UserInput {
 
 			FileUserInput userInput = new FileUserInput()
 
-			ParamHelper.create(params, userInput) {
+			ParamsToObjectMapper.map(params, userInput) {
 				mapParam('title')
-				mapParamWithFallback('condition') { true }
-				mapParamWithFallback('onInput') {}
+				mapParamWithFallback('condition', { true })
+				mapParamWithFallback('onInput', {})
 				mapParamWithFallback('extensions', [])
 				mapParam('extension') { String val -> userInput.extensions << val }
 				mapParamWithFallback('fileSelectionMode', JFileChooser.FILES_ONLY)
 				mapParamWithFallback('dialogType', JFileChooser.OPEN_DIALOG)
 				mapParam('currentDirectory')
-				mapParamWithFallback('onCancel') {}
+				mapParamWithFallback('onCancel', {})
+				checkForUnknownParams()
 			}
 
 			return userInput

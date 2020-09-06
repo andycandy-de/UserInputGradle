@@ -1,6 +1,6 @@
 package de.andycandy.gradle.user_input
 
-import groovy.transform.CompileDynamic
+
 import groovy.transform.CompileStatic
 import groovy.transform.NamedParam
 import groovy.transform.NamedParams
@@ -43,14 +43,15 @@ class YesNoUserInput extends UserInput {
 
 			YesNoUserInput userInput = new YesNoUserInput()
 
-			ParamHelper.create(params, userInput) {
+			ParamsToObjectMapper.map(params, userInput) {
 				mapParam('title')
 				mapParam('message')
-				mapParamWithFallback('condition') { true }
-				mapParamWithFallback('onInput') {}
-				mapParamWithFallback('onYes') {}
-				mapParamWithFallback('onNo') {}
-				mapParamWithFallback('onCancel') {}
+				mapParamWithFallback('condition', { true })
+				mapParamWithFallback('onInput', {})
+				mapParamWithFallback('onYes', {})
+				mapParamWithFallback('onNo', {})
+				mapParamWithFallback('onCancel', {})
+				checkForUnknownParams()
 			}
 
 			return userInput
