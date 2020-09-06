@@ -1,4 +1,12 @@
 # UserInputGradle
+
+https://plugins.gradle.org/plugin/de.andycandy.gradle.user_input
+```
+plugins {
+  id "de.andycandy.gradle.user_input" version "1.0.1"
+}
+```
+
 This plugin adds user input dialogs to a gradle build.
 
 For example to pass git credentials to the build.
