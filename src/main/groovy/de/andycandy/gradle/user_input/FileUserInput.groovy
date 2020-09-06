@@ -32,32 +32,24 @@ class FileUserInput extends UserInput {
 			this.onCancel.call()
 		}
 	}
-	
-	@CompileDynamic
+
 	public static class Creator implements ICreator {
 
 		@Override
 		public UserInput createFileUserInput(Map params) {
 
-			Map map = params.clone()
-
 			FileUserInput userInput = new FileUserInput()
-			
-			userInput.title = map.remove('title') ?: ''
-			userInput.condition = map.remove('condition') ?: { true }
-			userInput.onInput = map.remove('onInput') ?: {}
-			userInput.extensions = []
-			userInput.extensions += map.remove('extensions') ?: []
-			if (map.extension != null) {
-				userInput.extensions << map.remove('extension')
-			}
-			userInput.fileSelectionMode = map.remove('fileSelectionMode') ?: JFileChooser.FILES_ONLY
-			userInput.dialogType = map.remove('dialogType') ?: JFileChooser.OPEN_DIALOG
-			userInput.currentDirectory = map.remove('currentDirectory')
-			userInput.onCancel = map.remove('onCancel') ?: {}
 
-			if (!map.isEmpty()) {
-				throw new IllegalArgumentException("There are unknown parameters $map")
+			ParamHelper.create(params, userInput) {
+				mapParam('title')
+				mapParamWithFallback('condition') { true }
+				mapParamWithFallback('onInput') {}
+				mapParamWithFallback('extensions', [])
+				mapParam('extension') { String val -> userInput.extensions << val }
+				mapParamWithFallback('fileSelectionMode', JFileChooser.FILES_ONLY)
+				mapParamWithFallback('dialogType', JFileChooser.OPEN_DIALOG)
+				mapParam('currentDirectory')
+				mapParamWithFallback('onCancel') {}
 			}
 
 			return userInput

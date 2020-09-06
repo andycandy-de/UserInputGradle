@@ -96,7 +96,7 @@ class PasswordUserInputTest extends Specification {
 
         then:
         !execute
-        userInput.title == ''
+        userInput.title == null
         userInput.message == null
         userInput.condition() == false
         userInput.onInput() == null
@@ -113,7 +113,7 @@ class PasswordUserInputTest extends Specification {
 
         then:
         final IllegalArgumentException exception = thrown()
-        exception.message == "There are unknown parameters ${[unknown1: 'unknown1', unknown2: 'unknown2']}"
+        exception.message == "There are unknown parameters: ${[unknown1: 'unknown1', unknown2: 'unknown2']}"
     }
 
     def cleanup() {
