@@ -30,25 +30,20 @@ class PasswordUserInput extends UserInput {
 			this.onCancel.call()
 		}
 	}
-	
-	@CompileDynamic
+
 	public static class Creator implements ICreator {
 		
 		@Override
 		public UserInput createPasswordUserInput(Map params) {
 
-			Map map = params.clone()
-
 			PasswordUserInput userInput = new PasswordUserInput()
-			
-			userInput.title = map.remove('title') ?: ''
-			userInput.message = map.remove('message')
-			userInput.condition = map.remove('condition') ?: { true }
-			userInput.onInput = map.remove('onInput') ?: {}
-			userInput.onCancel = map.remove('onCancel') ?: {}
 
-			if (!map.isEmpty()) {
-				throw new IllegalArgumentException("There are unknown parameters $map")
+			ParamHelper.create(params, userInput) {
+				mapParam('title')
+				mapParam('message')
+				mapParamWithFallback('condition') { true }
+				mapParamWithFallback('onInput') {}
+				mapParamWithFallback('onCancel') {}
 			}
 
 			return userInput

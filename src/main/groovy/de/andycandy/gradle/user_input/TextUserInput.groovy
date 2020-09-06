@@ -34,25 +34,20 @@ class TextUserInput extends UserInput {
 		}
 	}
 
-	@CompileDynamic
 	public static class Creator implements ICreator {
 		
 		@Override
 		public UserInput createTextUserInput(Map params) {
 
-			Map map = params.clone()
-
 			TextUserInput userInput = new TextUserInput()
-			
-			userInput.title = map.remove('title') ?: ''
-			userInput.message = map.remove('message')
-			userInput.defaultText = map.remove('defaultText') ?: ''
-			userInput.condition = map.remove('condition') ?: { true }
-			userInput.onInput = map.remove('onInput') ?: {}
-			userInput.onCancel = map.remove('onCancel') ?: {}
 
-			if (!map.isEmpty()) {
-				throw new IllegalArgumentException("There are unknown parameters $map")
+			ParamHelper.create(params, userInput) {
+				mapParam('title')
+				mapParam('message')
+				mapParamWithFallback('defaultText', '')
+				mapParamWithFallback('condition') { true }
+				mapParamWithFallback('onInput') {}
+				mapParamWithFallback('onCancel') {}
 			}
 
 			return userInput

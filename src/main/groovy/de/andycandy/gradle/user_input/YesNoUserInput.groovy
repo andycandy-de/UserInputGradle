@@ -35,25 +35,22 @@ class YesNoUserInput extends UserInput {
 			this.onCancel.call()
 		}
 	}
-	
-	@CompileDynamic
+
 	public static class Creator implements ICreator {
 		
 		@Override
-		public UserInput createYesNoUserInput(Map map) {
-		
-			YesNoUserInput userInput = new YesNoUserInput()
-			
-			userInput.title = map.remove('title') ?: ''
-			userInput.message = map.remove('message')
-			userInput.condition = map.remove('condition') ?: { true }
-			userInput.onInput = map.remove('onInput') ?: {}
-			userInput.onYes = map.remove('onYes') ?: {}
-			userInput.onNo = map.remove('onNo') ?: {}
-			userInput.onCancel = map.remove('onCancel') ?: {}
+		public UserInput createYesNoUserInput(Map params) {
 
-			if (!map.isEmpty()) {
-				throw new IllegalArgumentException("There are unknown parameters $map")
+			YesNoUserInput userInput = new YesNoUserInput()
+
+			ParamHelper.create(params, userInput) {
+				mapParam('title')
+				mapParam('message')
+				mapParamWithFallback('condition') { true }
+				mapParamWithFallback('onInput') {}
+				mapParamWithFallback('onYes') {}
+				mapParamWithFallback('onNo') {}
+				mapParamWithFallback('onCancel') {}
 			}
 
 			return userInput

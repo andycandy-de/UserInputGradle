@@ -39,34 +39,28 @@ class DropdownUserInput extends UserInput {
 			this.onCancel.call()
 		}
 	}
-	
-	@CompileDynamic
+
 	public static class Creator implements ICreator {
 		
 		@Override
 		public UserInput createDropdownUserInput(Map params) {
 
-			Map map = params.clone()
-
 			DropdownUserInput userInput = new DropdownUserInput()
-			
-			userInput.title = map.remove('title') ?: ''
-			userInput.message = map.remove('message')
-			userInput.condition = map.remove('condition') ?: { true }
-			userInput.items = map.remove('items') ?: []
-			userInput.selectedItem = map.remove('selectedItem')
-			userInput.onInput = map.remove('onInput') ?: {}
-			userInput.onCancel = map.remove('onCancel') ?: {}
 
-			if (!map.isEmpty()) {
-				throw new IllegalArgumentException("There are unknown parameters $map")
+			ParamHelper.create(params, userInput) {
+				mapParam('title')
+				mapParam('message')
+				mapParamWithFallback('condition') { true }
+				mapParamWithFallback('items', [])
+				mapParam('selectedItem')
+				mapParamWithFallback('onInput') {}
+				mapParamWithFallback('onCancel') {}
 			}
 
 			return userInput
 		}
 	}
-	
-	
+
 	public interface ICreator {
 		UserInput createDropdownUserInput(@NamedParams([
 			@NamedParam(value = "title", type = String),

@@ -354,7 +354,7 @@ class FileUserInputTest extends Specification {
 
         then:
         final IllegalArgumentException exception = thrown()
-        exception.message == "There are unknown parameters ${[unknown1: 'unknown1', unknown2: 'unknown2']}"
+        exception.message == "There are unknown parameters: ${[unknown1: 'unknown1', unknown2: 'unknown2']}"
     }
 
     def cleanup() {
