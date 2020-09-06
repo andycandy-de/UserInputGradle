@@ -1,6 +1,6 @@
 package de.andycandy.gradle.user_input
 
-import groovy.transform.CompileDynamic
+
 import groovy.transform.CompileStatic
 import groovy.transform.NamedParam
 import groovy.transform.NamedParams
@@ -47,14 +47,15 @@ class DropdownUserInput extends UserInput {
 
 			DropdownUserInput userInput = new DropdownUserInput()
 
-			ParamHelper.create(params, userInput) {
+			ParamsToObjectMapper.map(params, userInput) {
 				mapParam('title')
 				mapParam('message')
-				mapParamWithFallback('condition') { true }
+				mapParamWithFallback('condition', { true })
 				mapParamWithFallback('items', [])
 				mapParam('selectedItem')
-				mapParamWithFallback('onInput') {}
-				mapParamWithFallback('onCancel') {}
+				mapParamWithFallback('onInput', {})
+				mapParamWithFallback('onCancel', {})
+				checkForUnknownParams()
 			}
 
 			return userInput
