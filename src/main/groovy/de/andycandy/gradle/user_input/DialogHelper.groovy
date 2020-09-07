@@ -71,7 +71,7 @@ public class DialogHelper implements IDialogHelper {
 			Closure acceptClosure = { File file ->
 				file.directory || '*' == extension || file.name.endsWith(".$extension")
 			}
-			dialog.addChoosableFileFilter([getDescription: {-> ".$extension"}, accept: acceptClosure] as FileFilter)
+			dialog.addChoosableFileFilter([getDescription: {-> ".$extension".toString()}, accept: acceptClosure] as FileFilter)
 		}
 
 		if (dialog.showDialog(null, null) != JFileChooser.APPROVE_OPTION) {
