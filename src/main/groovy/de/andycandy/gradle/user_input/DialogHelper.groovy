@@ -67,11 +67,14 @@ public class DialogHelper implements IDialogHelper {
 				dialogType: dialogType,
 				currentDirectory: currentDirectory)
 
-		extensions.each { extension ->
-			Closure acceptClosure = { File file ->
-				file.directory || '*' == extension || file.name.endsWith(".$extension")
+		if (!extensions.empty) {
+			dialog.resetChoosableFileFilters()
+			extensions.each { extension ->
+				Closure acceptClosure = { File file ->
+					file.directory || '*' == extension || file.name.endsWith(".$extension")
+				}
+				dialog.addChoosableFileFilter([getDescription: {-> ".$extension".toString()}, accept: acceptClosure] as FileFilter)
 			}
-			dialog.addChoosableFileFilter([getDescription: {-> ".$extension".toString()}, accept: acceptClosure] as FileFilter)
 		}
 
 		if (dialog.showDialog(null, null) != JFileChooser.APPROVE_OPTION) {
