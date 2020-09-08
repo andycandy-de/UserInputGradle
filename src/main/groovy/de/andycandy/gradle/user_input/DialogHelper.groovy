@@ -68,12 +68,12 @@ public class DialogHelper implements IDialogHelper {
 				currentDirectory: currentDirectory)
 
 		if (!extensions.empty) {
-			dialog.resetChoosableFileFilters()
+			dialog.acceptAllFileFilterUsed = false
 			extensions.each { extension ->
 				Closure acceptClosure = { File file ->
 					file.directory || '*' == extension || file.name.endsWith(".$extension")
 				}
-				dialog.addChoosableFileFilter([getDescription: {-> ".$extension".toString()}, accept: acceptClosure] as FileFilter)
+				dialog.addChoosableFileFilter([getDescription: {-> "*.$extension".toString()}, accept: acceptClosure] as FileFilter)
 			}
 		}
 
