@@ -3,7 +3,7 @@
 https://plugins.gradle.org/plugin/de.andycandy.gradle.user_input
 ```
 plugins {
-  id "de.andycandy.gradle.user_input" version "1.0.4"
+  id "de.andycandy.gradle.user_input" version "1.0.5"
 }
 ```
 
